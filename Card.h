@@ -19,3 +19,4 @@ class Card {
 };
 
 #endif // CARD_H
+

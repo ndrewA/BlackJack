@@ -24,3 +24,4 @@ class Hand {
 };
 
 #endif // HAND_H
+

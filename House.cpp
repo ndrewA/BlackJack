@@ -89,8 +89,9 @@ bool House::doubleDown(float& multiplier, std::unordered_set<Hand*>& validHands)
             (*hand)->addCard();
             std::cout << "YOUR HAND: ";
             for(auto i : (*hand)->getCards()) std::cout << i->getName() << "; ";
-            std::cout << "with SCORE = " << (*hand)->getPoints() << std::endl;
+            std::cout << "with SCORE = " << (*hand)->getPoints();
             if((*hand)->getPoints() > 21){
+                std::cout << " has LOST";
                 hands.erase(std::find(hands.begin(), hands.end(), *hand));
                 multiplier -= 4;
             } else {
@@ -98,7 +99,8 @@ bool House::doubleDown(float& multiplier, std::unordered_set<Hand*>& validHands)
                 hands.back()->addSpecificCard((*hand)->getCards()[0]);
                 hands.back()->addSpecificCard((*hand)->getCards()[1]);
                 hands.back()->addSpecificCard((*hand)->getCards()[2]);
-                }
+            }
+            std::cout << std::endl;
             hand = validHands.erase(hand);
         } else ++hand;
     }
@@ -167,24 +169,29 @@ bool House::playDealer(float& multiplier) {
 }
 
 void House::compareHands(float& multiplier) {
+    long long unsigned allFound = 0;
     for(auto hand : hands) {
-        std::cout << "your hand with hand SCORE = " << hand->getPoints() << " has ";
-        if(dealer->getScore() == hand->getPoints()) {
-            std::cout << "TIED with dealers hand: ";
+        bool haveFound = !(allFound & (1 << hand->getPoints()));
+        if(haveFound) std::cout << "YOUR HAND with hand SCORE = " << hand->getPoints() << " has ";
+        if(dealer->getScore() == hand->getPoints() && haveFound) {
+            std::cout << "TIED with DEALERS hand: ";
             for(auto i : dealer->getHand()->getCards()) std::cout << i->getName() << "; ";
             std::cout << "with SCORE: " << dealer->getScore() << std::endl;
-        } else {
+        } else if(dealer->getScore() != hand->getPoints()){
             if(hand->getPoints() > dealer->getScore()) {
-                std::cout << "WON";
+                if(haveFound) std::cout << "WON";
                 multiplier += 2;
             } else {
-                std::cout << "LOST";
+                if(haveFound) std::cout << "LOST";
                 multiplier -= 2;
             }
-            std::cout << " against the dealers hand: ";
-            for(auto i : dealer->getHand()->getCards()) std::cout << i->getName() << "; ";
-            std::cout << "with SCORE: " << dealer->getScore() << std::endl;
+            if(haveFound) {
+                std::cout << " against the DEALERS hand: ";
+                for(auto i : dealer->getHand()->getCards()) std::cout << i->getName() << "; ";
+                std::cout << "with SCORE: " << dealer->getScore() << std::endl;
+            }
         }
+        allFound |= 1 << hand->getPoints();
     }
     for(auto i : hands) {
         delete i;

@@ -15,7 +15,6 @@ class Deck {
         ~Deck();
         void shuffle();
         Card* getCard();
-        //bool checkInDeck(Card* c) {find(deck.begin(), deck.end(), c) == deck.end() ? return true : return false;}
 };
 
 

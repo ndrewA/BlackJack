@@ -39,3 +39,4 @@ Card::Card(int ct, int cn) : cardNum(cn), cardType(ct) {
             break;
     }
 }
+

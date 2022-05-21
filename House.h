@@ -31,3 +31,4 @@ class House {
 };
 
 #endif // HOUSE_H
+

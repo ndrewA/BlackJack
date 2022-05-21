@@ -22,6 +22,12 @@ void Hand::addSpecificCard(Card* c) {
     cards.push_back(c);
     if(c->getNum() == 1) aces.insert(c);
     points+=c->getVal();
+    if(points > 21) {
+        while(!aces.empty() && points > 21) {
+            points -= 10;
+            aces.erase(aces.begin());
+        }
+    }
 }
 
 Card* Hand::removeCard() {

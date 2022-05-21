@@ -19,12 +19,6 @@ void Deck::shuffle() {
     for(long long unsigned i = 0; i < deck.size(); i++) {
         std::swap(deck[i], deck[rand()%deck.size()]);
     }
-/*
-    deck[0] = new Card(1, 4);
-    deck[1] = new Card(2, 4);
-    deck[2] = new Card(3, 4);
-    deck[3] = new Card(4, 4);
-*/
 }
 
 Card* Deck::getCard() {
